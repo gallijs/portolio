@@ -2,36 +2,40 @@
 
 Will be a financial portfolio optimizer.
 
-### First iteration:
+## Tasks:
 
-* Read stock prices in csv format from a given directory.
+* Read stock prices from yahoo finance given a list of stock symbols.
 * Plot their price from the given start date to end date.
 * Option to normalize price.
 
 ## Usage
 ```bash
 $ portolio -h
-usage: portolio [-h] [-v] [-n] portfolio_directory start_date end_date
+usage: portolio [-h] [-v] [-n] start_date end_date symbol [symbol ...]
 
 Portolio is a portfolio optimizer.
 
 positional arguments:
-  portfolio_directory  path to stock csv files
-  start_date           start date
-  end_date             end date
+  start_date       start date
+  end_date         end date
+  symbol           stock symbols in the portfolio
 
 optional arguments:
-  -h, --help           show this help message and exit
-  -v, --version        show program's version number and exit
-  -n, --normalize      normalize stock prices
+  -h, --help       show this help message and exit
+  -v, --version    show program version number and exit
+  -n, --normalize  normalize stock prices
 ```
 
 #### Plots stock prices 
 ```bash
-$ portolio test_data 2016-01-01 2017-01-01
+$ portolio 2016-01-02 2017-01-01 YHOO GOOGl FIT GLD JNJ
 ```
+
+![Plot Example](normal_plot.png)
 
 #### Plots normalized prices 
 ```bash
-$ portolio -n test_data 2016-01-01 2017-01-01
+$ portolio -n 2016-01-02 2017-01-01 YHOO GOOGl FIT GLD JNJ
 ```
+
+![Normalized Plot Example](normalized_plot.png)

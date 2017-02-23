@@ -11,7 +11,8 @@ setup(name='portolio',
       packages=['portolio'],
       install_requires=[
           'pandas',
-          'matplotlib'
+          'matplotlib',
+          'yahoo-finance'
       ],
       entry_points={'console_scripts': ['portolio=portolio.__main__:cli']},
       zip_safe=False,

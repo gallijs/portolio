@@ -1,21 +1,13 @@
-import glob
-import ntpath
 import os
 import pandas as pd
 
 
-def get_paths(path):
-    return glob.glob(os.path.join(os.getcwd(), '{}/*.csv'.format(path)))
-
-
-def csv_to_df(stock):
-    symbol = (ntpath.basename(stock)).split('.')[0]
-    df = pd.read_csv(stock,
-                     index_col='Date',
-                     parse_dates=True,
-                     usecols=['Date', 'Adj Close'],
-                     na_values=['nan'])
-    df = df.rename(columns={'Adj Close': symbol})
+def dic_to_df(stock):
+    symbol = stock[0]['Symbol']
+    df = pd.DataFrame(stock, columns=['Adj_Close', 'Date'])
+    df.set_index('Date', inplace=True)
+    df = df.rename(columns={'Adj_Close': symbol})
+    df.index = pd.to_datetime(df.index)
     return df
 
 
@@ -23,11 +15,12 @@ def get_prices(stock_paths, dates):
     df = pd.DataFrame(index=dates)
 
     for stock in stock_paths:
-        df_temp = csv_to_df(stock)
+        df_temp = dic_to_df(stock)
         df = df.join(df_temp)
 
     most_traded = (df.isnull().sum()).idxmin()
     df = df.dropna(subset=[most_traded])
+    df = df.apply(lambda x: pd.to_numeric(x, errors='ignore'))
 
     return df
 
